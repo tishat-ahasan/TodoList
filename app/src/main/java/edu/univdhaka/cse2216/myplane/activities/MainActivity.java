@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.commit();
-            Toast.makeText(this,"Home is clicked",Toast.LENGTH_SHORT).show();
+            setTitle("Home");
 
         }
         else if(id==R.id.donelistId)
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.commit();
+            setTitle("Done List");
 
-            Toast.makeText(this,"Done List  is clicked",Toast.LENGTH_SHORT).show();
 
 //            Intent intent = new Intent(this,DoneList.class);
 //            startActivity(intent);
@@ -92,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id==R.id.addId)
         {
 
-//            Fragment fragment=new AddNew();
-//            FragmentManager fragmentManager= getFragmentManager();
+            /*Fragment fragment=new AddNew();
+            FragmentManager fragmentManager= getFragmentManager();
 //
-//            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//            fragmentTransaction.replace(R.id.parentId,fragment);
-//            fragmentTransaction.commit();
-//            Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.commit();
+            Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();*/
 
             Intent intent = new Intent(this,AddNewTask.class);
             startActivity(intent);

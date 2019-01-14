@@ -1,6 +1,9 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +25,7 @@ import edu.univdhaka.cse2216.myplane.domain.Tasks;
 import edu.univdhaka.cse2216.myplane.utils.DoneDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DoneList extends Fragment {
@@ -79,20 +85,35 @@ public class DoneList extends Fragment {
         listView.setAdapter(cAdapter);
     }
 
-    private class CAdapter extends ArrayAdapter<Tasks> {
+    private class CAdapter extends BaseAdapter {
 
-        private Context mContext;
-        private ArrayList<Tasks> tasksList = new ArrayList<>();
+        Context mContext;
+        LayoutInflater inflater;
+        ArrayList<Tasks> tasksList;
+        List<Tasks> modelList;
 
-        ArrayList<Tasks> orig;
-
-        ListView listView;
-
-        public CAdapter(Context context, ArrayList<Tasks> list, ListView listView) {
-            super(context, 0, list);
+        CAdapter(Context context, List<Tasks> list,ListView listView) {
+            super();
             mContext = context;
-            tasksList = list;
-            this.listView = listView;
+            this.modelList = list;
+            inflater = LayoutInflater.from(mContext);
+            this.tasksList = new ArrayList<>();
+            tasksList.addAll(modelList);
+        }
+
+        @Override
+        public int getCount() {
+            return modelList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return modelList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
@@ -102,10 +123,12 @@ public class DoneList extends Fragment {
                 listItem = LayoutInflater.from(mContext).inflate(R.layout.done_row,parent,false);
 
 
-            final Tasks currentTask = tasksList.get(position);
+            final Tasks currentTask = (Tasks) getItem(position);
 
             TextView name = (TextView) listItem.findViewById(R.id.task_title2);
             name.setText(currentTask.getTask_name());
+
+            ImageButton deleteButton = (ImageButton)listItem.findViewById(R.id.task_delete2);
 
             TextView taskDate = listItem.findViewById(R.id.DateText2);
             taskDate.setText(currentTask.getTask_date());
@@ -119,12 +142,47 @@ public class DoneList extends Fragment {
             idText.setText(currentTask.getTask_id());
 
             linearLayout.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"clicked",Toast.LENGTH_LONG).show();
+                    String details = database.getTaskDetails(currentTask.getTask_id());
+                    Tasks newTask = currentTask;
+                    newTask.setTask_details(details);
+                    mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public void onClick(View v) {
+
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.delete_task_confirmation_title)
+                            .setMessage(R.string.delete_task_confirmation_message)
+                            .setIcon(R.drawable.question)
+                            .setPositiveButton(R.string.delete,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            deleteTask(idText.getText().toString(),position,currentTask);
+                                        }
+                                    })
+                            .setNegativeButton(R.string.cancel, null)
+                            .create()
+                            .show();
                 }
             });
+
+
             return listItem;
+        }
+
+        private void deleteTask(String rowId,int position,Tasks ctask)
+        {
+            int value = database.deleteData(rowId);
+            modelList.remove(ctask);
+            tasksList.remove(ctask);
+            notifyDataSetChanged();
         }
     }
 

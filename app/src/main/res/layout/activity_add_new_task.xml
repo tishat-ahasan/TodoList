@@ -13,7 +13,8 @@
     <EditText
         android:id="@+id/taskName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:editable="false"
-            />
+            android:textColor="@color/black" />
 
         <ImageButton
             android:id="@+id/calender"
@@ -52,7 +53,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:editable="false"
-            />
+            android:textColor="@color/black" />
         <ImageButton
             android:id="@+id/clock"
             android:layout_width="wrap_content"
@@ -87,8 +88,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        >
 
+        >
     </Spinner>
     <TextView
         android:layout_width="match_parent"
@@ -101,6 +102,7 @@
         android:lines="6"
         android:maxLines="6"
         android:background="@drawable/edittextbackground"
+        android:textColor="@color/black"
         />
     <Button
         android:layout_width="wrap_content"

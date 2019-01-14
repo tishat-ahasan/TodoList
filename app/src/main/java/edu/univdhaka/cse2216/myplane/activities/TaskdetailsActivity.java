@@ -3,6 +3,7 @@ package edu.univdhaka.cse2216.myplane.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,5 +61,11 @@ public class TaskdetailsActivity extends AppCompatActivity {
         date.setText(tasks.getTask_date());
         time.setText(tasks.getTask_time());
         details.setText(tasks.getTask_details());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

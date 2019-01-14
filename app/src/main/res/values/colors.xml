@@ -6,4 +6,7 @@
     <color name="HeadingColor">#000000</color>
     <color name="DateColor">#1ae27e</color>
     <color name="TimeColor">#ea9449</color>
+    <color name="DoneButtonColor">#FF2</color>
+    <color name="black">#000000</color>
+
 </resources>

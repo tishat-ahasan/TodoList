@@ -210,7 +210,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"works",Toast.LENGTH_LONG).show();
                     String details = dataBase.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
