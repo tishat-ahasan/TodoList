@@ -145,6 +145,7 @@ public class DoneList extends Fragment {
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
+                    //Toast.makeText(getContext(),"clciked",Toast.LENGTH_SHORT).show();
                     String details = database.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
@@ -155,6 +156,7 @@ public class DoneList extends Fragment {
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
+
 
                     new AlertDialog.Builder(getContext())
                             .setTitle(R.string.delete_task_confirmation_title)
@@ -172,7 +174,6 @@ public class DoneList extends Fragment {
                             .show();
                 }
             });
-
 
             return listItem;
         }

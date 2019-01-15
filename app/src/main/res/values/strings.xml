@@ -15,8 +15,9 @@
         <item>Education</item>
         <item>Family</item>
         <item>Fun</item>
-        <item>Works</item>
         <item>Sports</item>
+        <item>Works</item>
+
 
     </string-array>
     <string name="question">What is to be done? </string>

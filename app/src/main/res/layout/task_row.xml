@@ -88,8 +88,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:padding="6dp">
-
-
     <ImageButton
         android:id="@+id/task_edit"
         android:layout_width="wrap_content"
@@ -109,8 +107,8 @@
         android:layout_toLeftOf="@+id/task_edit"
         android:src="@drawable/alarm_on"
         android:background="@android:color/transparent"
-        android:padding="5dp"
-        android:paddingTop="30dp"
+        android:padding="10dp"
+        android:paddingTop="20dp"
         />
 
         <ImageButton

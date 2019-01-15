@@ -62,7 +62,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
             }
         }
 
-        setTitle("Task New Task.");
+        setTitle("New Task");
     }
     private void bindWidgets()
     {
@@ -215,7 +215,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
                 tasks.setTask_details(task_details);
                 dataBase.updateData(tasks);
             }
-            startActivity(new Intent(AddNewTask.this, MainActivity.class));
+            finish();
         }
     }
 
