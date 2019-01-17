@@ -235,5 +235,4 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
     private void showError(EditText field, int messageRes) {
         field.setError(getString(messageRes));
     }
-
 }

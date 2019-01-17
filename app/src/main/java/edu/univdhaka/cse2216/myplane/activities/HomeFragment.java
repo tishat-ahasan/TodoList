@@ -1,6 +1,8 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -81,13 +83,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.addItem)
         {
-            Intent intent = new Intent(getActivity(),AddNewTask.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(),AddNewTask.class);
+//            startActivity(intent);
+            Fragment fragment=new AddNew();
+            FragmentManager fragmentManager= getFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putString("ActivityType","newAdd");
+            fragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.commit();
+
         }
     }
 
@@ -213,7 +225,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     String details = dataBase.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
-                    mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
+                    TaskDetails newfragment=new TaskDetails();
+                    newfragment.setArguments(wrapInfo(newTask));
+                    android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.parentId,newfragment);
+                    transaction.commit();
+                    //mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
                 }
             });
 
@@ -246,7 +263,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     String details = dataBase.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
-                    mContext.startActivity(new Intent(mContext,AddNewTask.class).putExtra("task", newTask));
+                    AddNew newfragment=new AddNew();
+                    Bundle bundle = wrapInfo(currentTask);
+                    bundle.putString("ActivityType","edit");
+                    newfragment.setArguments(bundle);
+                    android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.parentId,newfragment);
+                    transaction.commit();
+                    //mContext.startActivity(new Intent(mContext,AddNewTask.class).putExtra("task", newTask));
                 }
             });
 
@@ -277,6 +301,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             modelList.remove(ctask);
             tasksList.remove(ctask);
             notifyDataSetChanged();
+        }
+        private Bundle wrapInfo (Tasks task)
+        {
+            Bundle bundle=new Bundle();
+            bundle.putString("taskName",task.getTask_name());
+            bundle.putString("taskDate",task.getTask_date());
+            bundle.putString("taskTime",task.getTask_time());
+            bundle.putString("taskType",task.getTask_type());
+            bundle.putString("taskDetails",task.getTask_details());
+            bundle.putString("taskID",task.getTask_id());
+            return bundle;
         }
     }
 }

@@ -149,7 +149,13 @@ public class DoneList extends Fragment {
                     String details = database.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
-                    mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));                }
+                    TaskDetails newfragment=new TaskDetails();
+                    newfragment.setArguments(wrapInfo(newTask));
+                    android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.parentId,newfragment);
+                    transaction.commit();
+                    // mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
+                }
             });
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -187,5 +193,15 @@ public class DoneList extends Fragment {
         }
     }
 
+    private Bundle wrapInfo (Tasks task)
+    {
+        Bundle bundle=new Bundle();
+        bundle.putString("taskName",task.getTask_name());
+        bundle.putString("taskDate",task.getTask_date());
+        bundle.putString("taskTime",task.getTask_time());
+        bundle.putString("taskType",task.getTask_type());
+        bundle.putString("taskDetails",task.getTask_details());
+        return bundle;
+    }
 
 }

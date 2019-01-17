@@ -12,7 +12,7 @@ public class Tasks implements Serializable{
 
 
 
-
+    public Tasks(){};
     public Tasks(int isAlarm, String task_id, String task_name, String task_date, String task_time, String task_type) {
         this.isAlarm = isAlarm;
         this.task_id = task_id;

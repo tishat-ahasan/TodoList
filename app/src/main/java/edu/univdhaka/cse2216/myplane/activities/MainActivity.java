@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mToggle;
     private FrameLayout parentLayout;
     NavigationView navigationView;
+    String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-       // Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
 
         int id= menuItem.getItemId();
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -92,16 +93,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id==R.id.addId)
         {
 
-            /*Fragment fragment=new AddNew();
+            Fragment fragment=new AddNew();
             FragmentManager fragmentManager= getFragmentManager();
-//
+            Bundle bundle = new Bundle();
+            bundle.putString("ActivityType","newAdd");
+            fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.commit();
-            Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();*/
-
-            Intent intent = new Intent(this,AddNewTask.class);
-            startActivity(intent);
+            //Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();
+            setTitle("Add New Task");
+//            Intent intent = new Intent(this,AddNewTask.class);
+//            startActivity(intent);
 
         }
         else if(id==R.id.creditsId)

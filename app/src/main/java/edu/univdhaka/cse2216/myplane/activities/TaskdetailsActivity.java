@@ -36,20 +36,7 @@ public class TaskdetailsActivity extends AppCompatActivity {
 
         bindWidget();
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-            {
-                Toast.makeText(this,"works",Toast.LENGTH_LONG).show();
-                this.onBackPressed();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     public void bindWidget()
     {
