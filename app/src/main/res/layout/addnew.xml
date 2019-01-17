@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AddNew">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -107,17 +111,24 @@
             android:id="@+id/task_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="top|left"
             android:lines="6"
-            android:maxLines="6"
             android:background="@drawable/edittextbackground"
             android:textColor="@color/black"
             />
-        <Button
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add"
-            android:id="@+id/addButton"/>
+            android:gravity="center">
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+        </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
 

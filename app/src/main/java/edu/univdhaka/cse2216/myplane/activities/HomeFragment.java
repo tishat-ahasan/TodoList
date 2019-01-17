@@ -52,10 +52,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home_fragment, container, false);
         bindWidgets(view);
-
         updateList();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setActionBarTitle("Home");
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void bindWidgets(View view)
     {
@@ -98,6 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
 
         }
@@ -227,8 +234,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     newTask.setTask_details(details);
                     TaskDetails newfragment=new TaskDetails();
                     newfragment.setArguments(wrapInfo(newTask));
-                    android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    FragmentTransaction transaction=getFragmentManager().beginTransaction();
                     transaction.replace(R.id.parentId,newfragment);
+                    transaction.addToBackStack(String.valueOf(newfragment));
                     transaction.commit();
                     //mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
                 }

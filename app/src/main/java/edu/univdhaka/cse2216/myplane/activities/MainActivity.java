@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mToggle;
     private FrameLayout parentLayout;
     NavigationView navigationView;
+    FragmentManager fm;
     String text;
+    android.support.v4.app.Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
+        fm=MainActivity.this.getFragmentManager();
+        for(int i=0;i<fm.getBackStackEntryCount(); ++i)
+        {
+            fm.popBackStack();
+        }
+
+
 
         if(id==R.id.homeId)
         {
@@ -82,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
             setTitle("Done List");
 
@@ -100,25 +110,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
             //Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();
-            setTitle("Add New Task");
-//            Intent intent = new Intent(this,AddNewTask.class);
-//            startActivity(intent);
-
+            setTitle("New Task");
         }
-        else if(id==R.id.creditsId)
-        {
 
-            Fragment fragment=new Credits();
-            FragmentManager fragmentManager= getFragmentManager();
-
-            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.parentId,fragment);
-            fragmentTransaction.commit();
-            Toast.makeText(this,"Credits is clicked",Toast.LENGTH_SHORT).show();
-
-        }
         else if(id==R.id.aboutId)
         {
 
@@ -127,8 +124,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
+            fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
-            Toast.makeText(this,"About App is clicked",Toast.LENGTH_SHORT).show();
+            setTitle("About");
 
         }
 
@@ -138,24 +136,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle(R.string.alert_title)
-                .setMessage(R.string.alert_message)
-                .setIcon(R.drawable.question)
-                .setCancelable(false)
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .create()
-                .show();
 
+        if(getFragmentManager().getBackStackEntryCount() == 0 )
+        {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(R.string.alert_title)
+                    .setMessage(R.string.alert_message)
+                    .setIcon(R.drawable.question)
+                    .setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+        else
+        {
+            getFragmentManager().popBackStack();
+            String ss = getFragmentManager().getClass().getSimpleName();
+            Toast.makeText(this,this.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+        Toast.makeText(this,"function called",Toast.LENGTH_SHORT).show();
     }
 }

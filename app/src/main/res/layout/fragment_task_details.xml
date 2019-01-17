@@ -87,17 +87,23 @@
                 android:text="@string/paragraph"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="25dp">
+                <Button
+                    android:id="@+id/ButtonId1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/DoneButtonColor"
+                    android:text="done"
+                    />
+            </LinearLayout>
 
 
         </LinearLayout>
-        <Button
-            android:id="@+id/ButtonId1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:background="@color/DoneButtonColor"
-            android:text="done" />
+
 
     </RelativeLayout>
 

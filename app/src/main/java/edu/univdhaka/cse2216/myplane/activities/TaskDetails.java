@@ -38,13 +38,15 @@ public class TaskDetails extends Fragment {
         view =  inflater.inflate(R.layout.fragment_task_details, container, false);
 
         bundle  = getArguments();
-        //System.out.println(String.valueOf(bundle.getString("email")));
-        Toast.makeText(getContext(),String.valueOf(bundle.getString("taskDate")),Toast.LENGTH_SHORT).show();
         bindWidget();
-        getActivity().setTitle("Task Details");
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setActionBarTitle("Task Details");
+    }
 
     public void bindWidget()
     {
@@ -65,7 +67,6 @@ public class TaskDetails extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
             }
         });
     }

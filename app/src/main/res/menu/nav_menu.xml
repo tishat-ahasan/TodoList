@@ -30,15 +30,6 @@
     </item>
     <item
 
-        android:id="@+id/creditsId"
-        android:icon="@drawable/credits"
-        android:checkable="true"
-        android:title="Credits"
-        >
-
-    </item>
-    <item
-
         android:id="@+id/aboutId"
         android:icon="@drawable/aboutapp"
         android:checkable="true"

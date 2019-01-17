@@ -16,8 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.univdhaka.cse2216.myplane.activities.TaskdetailsActivity" />
-        <activity android:name="edu.univdhaka.cse2216.myplane.activities.AddNewTask"></activity>
+        <receiver android:name="edu.univdhaka.cse2216.myplane.utils.Alarm"></receiver>
+
     </application>
 
 </manifest>

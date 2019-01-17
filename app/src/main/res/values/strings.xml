@@ -35,4 +35,31 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="Tishat">Md. Ahasanul Alam\n
+    23rd Batch\n
+    CSE, DU.\n\n
+
+    </string>
+    <string name="Roni">Md. Robiul Islam Rony\n
+    23rd Batch\n
+    CSE, DU.\n\n
+
+    </string>
+    <string name="Antor">Golam Mourshid\n
+    23rd Batch\n
+    CSE, DU.\n\n
+
+    </string>
+
+    <string name="appName">
+        \@Todo List App\n\n\n
+    </string>
+    <string name="about">
+        To-do-list is smart task list for everyday use.
+        It is truly usable with great user experience.
+        No matter who you are and what you do - you will be better organized!
+        At home, at work and in your free time - you will focus on really important things!
+        To-do-list is powerful in its simplicity and convenience of use. \n\n\n\n
+    </string>
 </resources>

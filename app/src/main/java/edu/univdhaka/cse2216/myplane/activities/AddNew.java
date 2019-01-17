@@ -1,6 +1,8 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,9 +31,16 @@ import android.widget.Toast;
 
 import com.univdhaka.cse2216.myplane.R;
 import edu.univdhaka.cse2216.myplane.domain.Tasks;
+import edu.univdhaka.cse2216.myplane.utils.Alarm;
 import edu.univdhaka.cse2216.myplane.utils.DataBase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import static android.content.Context.ALARM_SERVICE;
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class AddNew extends Fragment implements View.OnClickListener {
 
@@ -49,6 +58,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
     //Tasks tasks;
     Bundle bundle;
     String activityType;
+    String hourMinute;
+    String givenDate;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -62,15 +73,25 @@ public class AddNew extends Fragment implements View.OnClickListener {
         activityType = String.valueOf(bundle.getString("ActivityType"));
         Toast.makeText(getContext(),activityType,Toast.LENGTH_SHORT).show();
         bindWidgets(view);
-        if (activityType.equalsIgnoreCase("edit")) retriveData();
-        // updateList();
-
-
-
+        if (activityType.equalsIgnoreCase("edit")) {
+            retriveData();
+        }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (activityType.equalsIgnoreCase("edit")) {
 
+            ((MainActivity)getActivity()).setActionBarTitle("Edit Task");
+
+        }
+        else
+        {
+            ((MainActivity)getActivity()).setActionBarTitle("New Task");
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void bindWidgets(View view)
@@ -121,6 +142,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             String time = updateTime(hourOfDay,minute);
                             clockText.setText(time);
+                            hourMinute = hourOfDay+":"+minute+":"+10;
                         }
                     },hour,minute,true);
             dialog.show();
@@ -140,7 +162,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            calenderText.setText(month+1 + "/" + dayOfMonth + "/" + year);
+                            calenderText.setText(dayOfMonth+ "/" +month+1+ "/" + year);
+                            givenDate = year+"/"+month+1+"/"+dayOfMonth;
                         }
                     },
                     year1, month1, day1);
@@ -149,6 +172,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         }
         else if (view.getId() == R.id.addButton) {
             saveTask();
+
         }
 
     }
@@ -179,10 +203,10 @@ public class AddNew extends Fragment implements View.OnClickListener {
         String aTime = new StringBuilder().append(hours).append(':')
                 .append(minutes).append(" ").append(timeSet).toString();
 
-
         return aTime;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void saveTask()
     {
         if (validateInput()) {
@@ -198,6 +222,9 @@ public class AddNew extends Fragment implements View.OnClickListener {
             if (activityType.equalsIgnoreCase("newAdd")) {
                 Tasks newTask = new Tasks(al, "0", task, taskDate, taskTime, taskType, task_details);
                 long flag = dataBase.insertData(newTask);
+                if (al == 1) {
+                    setAlarm(getTimeInMilli());
+                }
             } else {
                 Tasks tasks = new Tasks();
                 tasks.setTask_name(task);
@@ -238,6 +265,43 @@ public class AddNew extends Fragment implements View.OnClickListener {
         clockText.setText(String.valueOf(bundle.getString("taskTime")));
         spinner.setPrompt(String.valueOf(bundle.getString("taskType")));
         taskDetails.setText(String.valueOf(bundle.getString("taskDetails")));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private long getTimeInMilli()
+    {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String givenTime = givenDate+" "+hourMinute;
+        Date date = null;
+        Date currentTime = Calendar.getInstance().getTime();
+        try {
+
+            date = sdf.parse(givenTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime() - currentTime.getTime();
+        //Toast.makeText(getContext(),"second = "+millis,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),mydate3,Toast.LENGTH_SHORT).show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setAlarm(long diff)
+    {
+        AlarmManager alarmManager=(AlarmManager)getContext().getSystemService(ALARM_SERVICE);
+        Intent intent=new Intent(getContext(),Alarm.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getContext(),15,intent,0);
+        alarmManager.set(AlarmManager.RTC,System.currentTimeMillis()+diff,pendingIntent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void cancelAlarm(){
+        AlarmManager alarmManager=(AlarmManager)getContext().getSystemService(ALARM_SERVICE);
+        Intent intent=new Intent(getContext(),Alarm.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getContext(),15,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 
 }

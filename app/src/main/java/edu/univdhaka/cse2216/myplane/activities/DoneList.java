@@ -1,6 +1,7 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +46,14 @@ public class DoneList extends Fragment {
         updateList();
         return view;
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setActionBarTitle("Done Tasks");
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void bindWidget(View view)
     {
@@ -149,10 +158,11 @@ public class DoneList extends Fragment {
                     String details = database.getTaskDetails(currentTask.getTask_id());
                     Tasks newTask = currentTask;
                     newTask.setTask_details(details);
-                    TaskDetails newfragment=new TaskDetails();
-                    newfragment.setArguments(wrapInfo(newTask));
-                    android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.parentId,newfragment);
+                    TaskDetails fragment=new TaskDetails();
+                    fragment.setArguments(wrapInfo(newTask));
+                    FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.parentId,fragment);
+                    transaction.addToBackStack(String.valueOf(fragment));
                     transaction.commit();
                     // mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
                 }
