@@ -292,9 +292,9 @@ public class AddNew extends Fragment implements View.OnClickListener {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return date.getTime() - currentTime.getTime();
-        //Toast.makeText(getContext(),"second = "+millis,Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getContext(),mydate3,Toast.LENGTH_SHORT).show();
+        long diff = date.getTime() - currentTime.getTime();
+        Toast.makeText(getContext(),givenTime+" = "+diff,Toast.LENGTH_SHORT).show();
+        return diff;
     }
 
 

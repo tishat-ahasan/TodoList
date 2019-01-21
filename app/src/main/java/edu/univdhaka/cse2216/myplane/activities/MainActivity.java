@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
-        Toast.makeText(this,"function called",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -185,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent=new Intent(this,Alarm.class);
         PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,0);
         alarmManager.set(AlarmManager.RTC,System.currentTimeMillis()+diff,pendingIntent);
+        //Toast.makeText(this,id+" = "+diff,Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -193,5 +193,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent=new Intent(this,Alarm.class);
         PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingIntent);
+        //Toast.makeText(this,id+" = cancel ",Toast.LENGTH_SHORT).show();
     }
 }
