@@ -282,15 +282,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-            alarm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext,"alarm button "+ currentTask.getTask_name() , LENGTH_LONG).show();
-
-                }
-            });
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Toast.makeText(mContext,"Task Done!", LENGTH_LONG).show();
@@ -303,11 +297,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             return listItem;
         }
 
-        private void deleteTask(String rowId,int position,Tasks ctask)
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        private void deleteTask(String rowId, int position, Tasks ctask)
         {
             int value = dataBase.deleteData(rowId);
             modelList.remove(ctask);
             tasksList.remove(ctask);
+            ((MainActivity)getActivity()).cancelAlarm(Integer.parseInt(ctask.getTask_id()));
             notifyDataSetChanged();
         }
         private Bundle wrapInfo (Tasks task)
