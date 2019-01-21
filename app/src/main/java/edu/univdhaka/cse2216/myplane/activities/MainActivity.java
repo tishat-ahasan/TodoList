@@ -1,9 +1,13 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,6 +22,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.univdhaka.cse2216.myplane.R;
+
+import edu.univdhaka.cse2216.myplane.utils.Alarm;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -169,5 +175,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
         Toast.makeText(this,"function called",Toast.LENGTH_SHORT).show();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void setAlarm(long diff,int id)
+    {
+        AlarmManager alarmManager=(AlarmManager)this.getSystemService(ALARM_SERVICE);
+        Intent intent=new Intent(this,Alarm.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,0);
+        alarmManager.set(AlarmManager.RTC,System.currentTimeMillis()+diff,pendingIntent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void cancelAlarm(int id){
+        AlarmManager alarmManager=(AlarmManager)this.getSystemService(ALARM_SERVICE);
+        Intent intent=new Intent(this,Alarm.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 }

@@ -11,19 +11,24 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        /*Toast.makeText(context,"Wake up",Toast.LENGTH_LONG).show();
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), notification);
-        r.play();
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), notification);
-        mp.start();*/
 
 
-        MediaPlayer mediaPlayer=MediaPlayer.create(context, Settings.System.DEFAULT_RINGTONE_URI);
+        final MediaPlayer mediaPlayer=MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
         mediaPlayer.start();
+        new Timer().schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        mediaPlayer.stop();
+                    }
+                },
+                2000
+        );
     }
 }

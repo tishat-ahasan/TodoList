@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -222,10 +223,14 @@ public class AddNew extends Fragment implements View.OnClickListener {
             if (activityType.equalsIgnoreCase("newAdd")) {
                 Tasks newTask = new Tasks(al, "0", task, taskDate, taskTime, taskType, task_details);
                 long flag = dataBase.insertData(newTask);
+                Cursor cursor = dataBase.getAllData();
+                cursor.moveToLast();
                 if (al == 1) {
-                    setAlarm(getTimeInMilli());
+
+                    ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(cursor.getString(0)));
                 }
-            } else {
+            }
+            else{
                 Tasks tasks = new Tasks();
                 tasks.setTask_name(task);
                 tasks.setTask_date(taskDate);
@@ -234,6 +239,11 @@ public class AddNew extends Fragment implements View.OnClickListener {
                 tasks.setTask_details(task_details);
                 tasks.setTask_id(String.valueOf(bundle.getString("taskID")));
                 dataBase.updateData(tasks);
+                if (al==1)
+                {
+                    ((MainActivity)getActivity()).cancelAlarm(Integer.parseInt(tasks.getTask_id()));
+                    ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(tasks.getTask_id()));
+                }
             }
             android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
             transaction.replace(R.id.parentId,new HomeFragment());
@@ -287,21 +297,5 @@ public class AddNew extends Fragment implements View.OnClickListener {
         //Toast.makeText(getContext(),mydate3,Toast.LENGTH_SHORT).show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void setAlarm(long diff)
-    {
-        AlarmManager alarmManager=(AlarmManager)getContext().getSystemService(ALARM_SERVICE);
-        Intent intent=new Intent(getContext(),Alarm.class);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(getContext(),15,intent,0);
-        alarmManager.set(AlarmManager.RTC,System.currentTimeMillis()+diff,pendingIntent);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void cancelAlarm(){
-        AlarmManager alarmManager=(AlarmManager)getContext().getSystemService(ALARM_SERVICE);
-        Intent intent=new Intent(getContext(),Alarm.class);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(getContext(),15,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(pendingIntent);
-    }
 
 }
