@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name="edu.univdhaka.cse2216.myplane.utils.AlarmReceiver"
+            android:enabled="false">
+        </receiver>
         <receiver android:name="edu.univdhaka.cse2216.myplane.utils.Alarm"></receiver>
 
     </application>

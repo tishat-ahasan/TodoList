@@ -62,4 +62,8 @@
         At home, at work and in your free time - you will focus on really important things!
         To-do-list is powerful in its simplicity and convenience of use. \n\n\n\n
     </string>
+    <string name="NotificationTitle">It\'s time to hurry</string>
+    <string name="NotificationBody">You have an upcoming task withing a minute!</string>
+
+
 </resources>

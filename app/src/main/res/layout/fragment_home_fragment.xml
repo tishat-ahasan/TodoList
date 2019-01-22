@@ -42,7 +42,7 @@
                 android:id="@+id/addItem"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/clipboard"
+                android:src="@drawable/newtask"
 
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"

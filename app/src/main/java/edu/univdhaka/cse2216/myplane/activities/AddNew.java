@@ -1,9 +1,11 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -72,7 +75,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         button.setOnClickListener(this);
         bundle  = getArguments();
         activityType = String.valueOf(bundle.getString("ActivityType"));
-        Toast.makeText(getContext(),activityType,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),activityType,Toast.LENGTH_SHORT).show();
         bindWidgets(view);
         if (activityType.equalsIgnoreCase("edit")) {
             retriveData();
@@ -145,7 +148,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
                             clockText.setText(time);
                             hourMinute = hourOfDay+":"+minute+":"+10;
                         }
-                    },hour,minute,true);
+                    },hour,minute,false);
             dialog.show();
         }
 
@@ -172,6 +175,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
             dialog.show();
         }
         else if (view.getId() == R.id.addButton) {
+            hideKeyboard((MainActivity)getActivity());
             saveTask();
 
         }
@@ -293,9 +297,19 @@ public class AddNew extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         long diff = date.getTime() - currentTime.getTime();
-        Toast.makeText(getContext(),givenTime+" = "+diff,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),givenTime+" = "+diff,Toast.LENGTH_SHORT).show();
         return diff;
     }
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
 }

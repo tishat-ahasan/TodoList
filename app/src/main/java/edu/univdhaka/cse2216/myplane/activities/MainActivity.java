@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.univdhaka.cse2216.myplane.R;
 
 import edu.univdhaka.cse2216.myplane.utils.Alarm;
+import edu.univdhaka.cse2216.myplane.utils.AlarmReceiver;
+import edu.univdhaka.cse2216.myplane.utils.NotificationScheduler;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -168,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             getFragmentManager().popBackStack();
             String ss = getFragmentManager().getClass().getSimpleName();
-            Toast.makeText(this,this.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,this.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -180,19 +182,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setAlarm(long diff,int id)
     {
-        AlarmManager alarmManager=(AlarmManager)this.getSystemService(ALARM_SERVICE);
-        Intent intent=new Intent(this,Alarm.class);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,0);
-        alarmManager.set(AlarmManager.RTC,System.currentTimeMillis()+diff,pendingIntent);
-        //Toast.makeText(this,id+" = "+diff,Toast.LENGTH_SHORT).show();
+        if (diff>0)
+        new NotificationScheduler(id,diff).setReminder(MainActivity.this, AlarmReceiver.class);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void cancelAlarm(int id){
-        AlarmManager alarmManager=(AlarmManager)this.getSystemService(ALARM_SERVICE);
-        Intent intent=new Intent(this,Alarm.class);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(pendingIntent);
-        //Toast.makeText(this,id+" = cancel ",Toast.LENGTH_SHORT).show();
+        new NotificationScheduler(id,0).cancelReminder(MainActivity.this, AlarmReceiver.class);
+
     }
 }
