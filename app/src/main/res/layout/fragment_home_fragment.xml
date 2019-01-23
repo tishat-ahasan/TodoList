@@ -34,10 +34,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:background="#fffefe" />
-
-
-
-
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/addItem"
                 android:layout_width="64dp"

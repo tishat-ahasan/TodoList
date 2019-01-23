@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ((MainActivity)getActivity()).setActionBarTitle("Home");
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void bindWidgets(View view)
     {
@@ -71,6 +72,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         addButton =(FloatingActionButton) view.findViewById(R.id.addItem);
         listView = (ListView) view.findViewById(R.id.list_todo);
         addButton.setOnClickListener(this);
+
+        ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
+        listView.addFooterView(footer);
 
         android.widget.SearchView searchView2= view.findViewById(R.id.searchView1);
         searchView2.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
@@ -111,7 +115,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void updateList()
     {
@@ -130,22 +133,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 if (isAlarm == null)
                 {
-                    tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType,0));
                 }
                 else if (isAlarm.equalsIgnoreCase("yes")) {
-                    tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType,1));
                 }
                 else {
-                    tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType,0));
                 }
             }
         }
         cAdapter = new CAdapter(getActivity(),tasksList,listView);
         listView.setAdapter(cAdapter);
-
-        ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
-        listView.addFooterView(footer);
-
     }
 
 
@@ -321,6 +320,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             bundle.putString("taskType",task.getTask_type());
             bundle.putString("taskDetails",task.getTask_details());
             bundle.putString("taskID",task.getTask_id());
+            bundle.putString("taskAlarm",task.getAlarm_status()+"");
             return bundle;
         }
     }

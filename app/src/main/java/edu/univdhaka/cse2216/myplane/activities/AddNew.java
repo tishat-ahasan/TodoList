@@ -65,6 +65,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
     String hourMinute;
     String givenDate;
 
+    ArrayAdapter<String> adapter;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,7 +128,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         clockText.setOnClickListener(this);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.list_row,R.id.typeRowID,taskstypes);
+        adapter = new ArrayAdapter<String>(getContext(),R.layout.list_row,R.id.typeRowID,taskstypes);
         spinner.setAdapter(adapter);
         return;
     }
@@ -240,12 +242,14 @@ public class AddNew extends Fragment implements View.OnClickListener {
                 tasks.setTask_date(taskDate);
                 tasks.setTask_time(taskTime);
                 tasks.setIsAlarm(al);
+                tasks.setTask_type(taskType);
                 tasks.setTask_details(task_details);
                 tasks.setTask_id(String.valueOf(bundle.getString("taskID")));
                 dataBase.updateData(tasks);
                 if (al==1)
                 {
-                    ((MainActivity)getActivity()).cancelAlarm(Integer.parseInt(tasks.getTask_id()));
+                    //Toast.makeText(getContext()," here = "+getTimeInMilli(),Toast.LENGTH_LONG).show();
+                    //((MainActivity)getActivity()).cancelAlarm(Integer.parseInt(tasks.getTask_id()));
                     ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(tasks.getTask_id()));
                 }
             }
@@ -272,13 +276,34 @@ public class AddNew extends Fragment implements View.OnClickListener {
         field.setError(getString(messageRes));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void retriveData()
     {
+        String dateString = String.valueOf(bundle.getString("taskDate"));
+        String timeString = String.valueOf(bundle.getString("taskTime"));
+        String typeString = String.valueOf(bundle.getString("taskType"));
+        String alarmString = String.valueOf(bundle.getString("taskAlarm"));
+
         taskName.setText(String.valueOf(bundle.getString("taskName")));
-        calenderText.setText(String.valueOf(bundle.getString("taskDate")));
-        clockText.setText(String.valueOf(bundle.getString("taskTime")));
-        spinner.setPrompt(String.valueOf(bundle.getString("taskType")));
+        calenderText.setText(dateString);
+        clockText.setText(timeString);
+        //spinner.setPrompt(String.valueOf(bundle.getString("taskType")));
+
+        givenDate = dateString.substring(6)+"/"+dateString.substring(3,6)+dateString.substring(0,2);
+        int point = timeString.indexOf(':');
+        String hour = timeString.substring(0,point);
+        String pmCheck = timeString.substring(timeString.length()-2);
+        if (pmCheck.equalsIgnoreCase("pm")) {
+
+            hour = ""+(Integer.parseInt(hour)+12);
+
+        }
+        hour = hour+timeString.substring(point,point+3)+":"+10;
+        hourMinute = hour;
         taskDetails.setText(String.valueOf(bundle.getString("taskDetails")));
+        spinner.setSelection(adapter.getPosition(typeString));
+        if (alarmString.equalsIgnoreCase("1"))
+        alarmSwitch.setChecked(true);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

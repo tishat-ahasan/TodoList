@@ -42,9 +42,9 @@ public class DoneDatabase extends SQLiteOpenHelper {
 
         try {
             sqLiteDatabase.execSQL(CREATE_TABLE);
-            Toast.makeText(context, "TABLE CREATED ", Toast.LENGTH_LONG).show();
+            //.makeText(context, "TABLE CREATED ", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(context, "Exception " + e, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Exception " + e, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -53,10 +53,10 @@ public class DoneDatabase extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
         try {
-            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + ";");
+            //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + ";");
             onCreate(sqLiteDatabase);
         } catch (Exception e) {
-            Toast.makeText(context, "Exception " + e, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Exception " + e, Toast.LENGTH_LONG).show();
         }
     }
 

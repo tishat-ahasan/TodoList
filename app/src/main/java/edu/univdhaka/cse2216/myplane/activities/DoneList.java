@@ -80,13 +80,13 @@ public class DoneList extends Fragment {
 
                 if (isAlarm == null)
                 {
-                    tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType,0));
                 }
                 else if (isAlarm.equalsIgnoreCase("yes")) {
-                    tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType,1));
                 }
                 else {
-                    tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType));
+                    tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType,0));
                 }
             }
         }

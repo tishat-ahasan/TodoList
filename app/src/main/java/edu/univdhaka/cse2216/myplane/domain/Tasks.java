@@ -7,19 +7,21 @@ import java.io.Serializable;
 public class Tasks implements Serializable{
 
 
-    private int isAlarm;
+    private int isAlarm,alarm_status=0;
     private String task_id,task_name,task_date,task_time,task_type,task_details;
 
 
 
+
     public Tasks(){};
-    public Tasks(int isAlarm, String task_id, String task_name, String task_date, String task_time, String task_type) {
+    public Tasks(int isAlarm, String task_id, String task_name, String task_date, String task_time, String task_type,int alarm_status) {
         this.isAlarm = isAlarm;
         this.task_id = task_id;
         this.task_name = task_name;
         this.task_date = task_date;
         this.task_time = task_time;
         this.task_type = task_type;
+        this.alarm_status = alarm_status;
     }
 
 
@@ -87,6 +89,14 @@ public class Tasks implements Serializable{
 
     public void setTask_details(String task_details) {
         this.task_details = task_details;
+    }
+
+    public int getAlarm_status() {
+        return alarm_status;
+    }
+
+    public void setAlarm_status(int alarm_status) {
+        this.alarm_status = alarm_status;
     }
 }
 
