@@ -1,5 +1,6 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -110,6 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void updateList()
     {
@@ -140,6 +142,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         cAdapter = new CAdapter(getActivity(),tasksList,listView);
         listView.setAdapter(cAdapter);
+
+        ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
+        listView.addFooterView(footer);
+
     }
 
 
