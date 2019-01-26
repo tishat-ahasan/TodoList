@@ -282,6 +282,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     newfragment.setArguments(bundle);
                     android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
                     transaction.replace(R.id.parentId,newfragment);
+                    transaction.addToBackStack(String.valueOf(newfragment));
                     transaction.commit();
                     //mContext.startActivity(new Intent(mContext,AddNewTask.class).putExtra("task", newTask));
                 }
