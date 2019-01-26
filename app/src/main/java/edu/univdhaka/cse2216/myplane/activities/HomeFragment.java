@@ -73,8 +73,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         listView = (ListView) view.findViewById(R.id.list_todo);
         addButton.setOnClickListener(this);
 
-        ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
-        listView.addFooterView(footer);
+        //ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
+        //listView.addFooterView(footer);
 
         android.widget.SearchView searchView2= view.findViewById(R.id.searchView1);
         searchView2.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
