@@ -24,7 +24,7 @@ public class TaskDetails extends Fragment {
     TextView heading,type,date,time,details;
     String id;
     Tasks tasks;
-    Button button;
+    //Button button;
     ImageView imageView;
     View view;
     Bundle bundle;
@@ -55,7 +55,7 @@ public class TaskDetails extends Fragment {
         date = view.findViewById(R.id.taskdate);
         time = view.findViewById(R.id.tasktime);
         details = view.findViewById(R.id.taskdetails);
-        button = view.findViewById(R.id.ButtonId1);
+        // button = view.findViewById(R.id.ButtonId1);
         imageView = view.findViewById(R.id.imageID);
         heading.setText(String.valueOf(bundle.getString("taskName")));
         type.setText(String.valueOf(bundle.getString("taskType")));
@@ -64,11 +64,11 @@ public class TaskDetails extends Fragment {
 
         details.setText(String.valueOf(bundle.getString("taskDetails")));
         setImage(String.valueOf(bundle.getString("taskType")));
-        button.setOnClickListener(new View.OnClickListener() {
+/*        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
-        });
+        });*/
     }
     private void setImage(String type)
     {

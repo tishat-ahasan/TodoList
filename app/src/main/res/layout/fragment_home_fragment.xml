@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     tools:context=".activities.HomeFragment">
@@ -30,10 +32,21 @@
             <ListView
                 android:id="@+id/list_todo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:background="#fffefe" />
+            <TextView
+                android:id="@+id/emptyId"
+                android:foregroundGravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="40dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="There's no upcoming task to do :)"
+                />
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/addItem"
                 android:layout_width="64dp"

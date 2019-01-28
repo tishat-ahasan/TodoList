@@ -1,8 +1,10 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +20,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -35,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     FragmentManager fm;
     String text;
-    android.support.v4.app.Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
+            hideKeyboard(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -73,16 +77,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-        fm=MainActivity.this.getFragmentManager();
-        for(int i=0;i<fm.getBackStackEntryCount(); ++i)
-        {
-            fm.popBackStack();
-        }
+        /*FrameLayout frameLayout=findViewById(R.id.parentId);
+        frameLayout.removeAllViews();*/
 
 
 
         if(id==R.id.homeId)
         {
+            fm=MainActivity.this.getFragmentManager();
+            for(int i=0;i<fm.getBackStackEntryCount(); ++i)
+            {
+                fm.popBackStack();
+            }
+
             Fragment fragment=new HomeFragment();
             FragmentManager fragmentManager= getFragmentManager();
 
@@ -94,12 +101,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.donelistId)
         {
+            fm=MainActivity.this.getFragmentManager();
+            for(int i=0;i<fm.getBackStackEntryCount(); ++i)
+            {
+                fm.popBackStack();
+            }
+
             Fragment fragment=new DoneList();
             FragmentManager fragmentManager= getFragmentManager();
 
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.parentId,fragment);
-            fragmentTransaction.addToBackStack(String.valueOf(fragment));
+            fragmentTransaction.replace(R.id.parentId,fragment,"doneList");
+            fragmentTransaction.addToBackStack("doneList");
             fragmentTransaction.commit();
             setTitle("Done List");
 
@@ -110,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.addId)
         {
+            fm=MainActivity.this.getFragmentManager();
+            for(int i=0;i<fm.getBackStackEntryCount(); ++i)
+            {
+                fm.popBackStack();
+            }
+
 
             Fragment fragment=new AddNew();
             FragmentManager fragmentManager= getFragmentManager();
@@ -126,6 +145,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if(id==R.id.aboutId)
         {
+            fm=MainActivity.this.getFragmentManager();
+            for(int i=0;i<fm.getBackStackEntryCount(); ++i)
+            {
+                fm.popBackStack();
+            }
 
             Fragment fragment=new AboutApp();
             FragmentManager fragmentManager= getFragmentManager();
@@ -183,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setAlarm(long diff,int id)
     {
         if (diff>0)
-        new NotificationScheduler(id,diff).setReminder(MainActivity.this, AlarmReceiver.class);
+            new NotificationScheduler(id,diff).setReminder(MainActivity.this, AlarmReceiver.class);
 
     }
 
@@ -191,5 +215,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void cancelAlarm(int id){
         new NotificationScheduler(id,0).cancelReminder(MainActivity.this, AlarmReceiver.class);
 
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

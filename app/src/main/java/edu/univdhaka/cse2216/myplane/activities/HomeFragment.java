@@ -1,5 +1,6 @@
 package edu.univdhaka.cse2216.myplane.activities;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -69,8 +70,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     {
         dataBase = new DataBase(getContext());
         doneData = new DoneDatabase(getContext());
-        addButton =(FloatingActionButton) view.findViewById(R.id.addItem);
-        listView = (ListView) view.findViewById(R.id.list_todo);
+        addButton = view.findViewById(R.id.addItem);
+        listView =  view.findViewById(R.id.list_todo);
+
+        TextView emptyView=view.findViewById(R.id.emptyId);
+        listView.setEmptyView(emptyView);
+
+
         addButton.setOnClickListener(this);
 
         //ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
@@ -203,20 +209,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View listItem = convertView;
-            if(listItem == null)
-                listItem = LayoutInflater.from(mContext).inflate(R.layout.task_row,parent,false);
 
+            if(listItem == null) {
+                listItem = LayoutInflater.from(mContext).inflate(R.layout.task_row, parent, false);
+            }
 
             final Tasks currentTask = (Tasks) getItem(position);
 
-            final CheckBox checkBox = (CheckBox) listItem.findViewById(R.id.task_finish);
-            ImageButton editButton = (ImageButton)listItem.findViewById(R.id.task_edit);
-            ImageButton deleteButton = (ImageButton)listItem.findViewById(R.id.task_delete);
+            final CheckBox checkBox =  listItem.findViewById(R.id.task_finish);
+            ImageButton editButton = listItem.findViewById(R.id.task_edit);
+            ImageButton deleteButton = listItem.findViewById(R.id.task_delete);
 
-            ImageButton alarm = (ImageButton)listItem.findViewById(R.id.alarmButton);
+            ImageButton alarm = listItem.findViewById(R.id.alarmButton);
             alarm.setImageResource(currentTask.getIsAlarm());
 
-            TextView name = (TextView) listItem.findViewById(R.id.task_title);
+            TextView name =  listItem.findViewById(R.id.task_title);
             name.setText(currentTask.getTask_name());
 
             TextView taskDate = listItem.findViewById(R.id.DateText);
@@ -225,7 +232,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             TextView taskTime = listItem.findViewById(R.id.TimeText);
             taskTime.setText(currentTask.getTask_time());
 
-            LinearLayout clicableLayout = (LinearLayout) listItem.findViewById(R.id.clicableLayout);
+            LinearLayout clicableLayout =  listItem.findViewById(R.id.clicableLayout);
 
             final TextView idText = listItem.findViewById(R.id.idText);
             idText.setText(currentTask.getTask_id());
@@ -240,8 +247,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     TaskDetails newfragment=new TaskDetails();
                     newfragment.setArguments(wrapInfo(newTask));
                     FragmentTransaction transaction=getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.parentId,newfragment);
-                    transaction.addToBackStack(String.valueOf(newfragment));
+                    transaction.replace(R.id.parentId,newfragment,"homeToDetails");
+                    transaction.addToBackStack("homeToDetails");
                     transaction.commit();
                     //mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
                 }
@@ -299,6 +306,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     checkBox.toggle();
                 }
             });
+
+
 
             return listItem;
         }

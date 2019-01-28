@@ -14,8 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.app.Fragment;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -135,6 +134,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
+
         if (view.getId() == R.id.clock || view.getId() == R.id.clockText)
         {
             Calendar calendar = Calendar.getInstance();
@@ -253,7 +253,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
                     ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(tasks.getTask_id()));
                 }
             }
-            android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+            FragmentTransaction transaction=getFragmentManager().beginTransaction();
             transaction.replace(R.id.parentId,new HomeFragment());
             transaction.commit();
         }
@@ -303,7 +303,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         taskDetails.setText(String.valueOf(bundle.getString("taskDetails")));
         spinner.setSelection(adapter.getPosition(typeString));
         if (alarmString.equalsIgnoreCase("1"))
-        alarmSwitch.setChecked(true);
+            alarmSwitch.setChecked(true);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

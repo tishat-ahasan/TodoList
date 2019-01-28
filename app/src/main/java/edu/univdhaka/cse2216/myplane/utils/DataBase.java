@@ -23,8 +23,8 @@ public class DataBase extends SQLiteOpenHelper{
     private static final String TASK_ALARM = "TASK_ALARM";
     private static final String TASK_DETAILS = "TASK_DETAILS";
     private static final String ITEMS = ID + ","+TASK_NAME+ ","+TASK_DATE+ ","+TASK_TIME+ ","+TASK_TYPE+ ","+TASK_ALARM;
-    private static final String SELECT_ALL = "SELECT " +ITEMS+" FROM "+TABLE_NAME+";";
-    private static final String SELECT_ALL2 = "SELECT * FROM "+TABLE_NAME+";";
+    private static final String SELECT_ALL = "SELECT " +ITEMS+" FROM "+TABLE_NAME+" ORDER BY "+TASK_DATE+","+TASK_TIME+";";
+    //  private static final String SELECT_ALL2 = "SELECT * FROM "+TABLE_NAME+" ORDER BY "+TASK_DATE+","+TASK_TIME+";";
     private static final String SELECT_TASK_DETAILS = "SELECT " +ID+","+TASK_DETAILS+" FROM "+TABLE_NAME+";";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +TASK_NAME+" VARCHAR (255),"+TASK_DATE+" VARCHAR(25),"+TASK_TIME+" VARCHAR(25),"+TASK_TYPE+" VARCHAR(25),"+TASK_ALARM+" VARCHAR (15), "+TASK_DETAILS+" VARCHAR );";
 
@@ -137,4 +137,3 @@ public class DataBase extends SQLiteOpenHelper{
 
 
 }
-

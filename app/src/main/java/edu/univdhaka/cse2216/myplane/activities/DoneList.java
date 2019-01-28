@@ -161,9 +161,10 @@ public class DoneList extends Fragment {
                     TaskDetails fragment=new TaskDetails();
                     fragment.setArguments(wrapInfo(newTask));
                     FragmentTransaction transaction=getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.parentId,fragment);
-                    transaction.addToBackStack(String.valueOf(fragment));
+                    transaction.replace(R.id.parentId,fragment,"doneToDetails");
+                    transaction.addToBackStack("doneToDetails");
                     transaction.commit();
+
                     // mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
                 }
             });

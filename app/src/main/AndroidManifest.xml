@@ -9,18 +9,25 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="edu.univdhaka.cse2216.myplane.activities.MainActivity">
+        <activity android:name="edu.univdhaka.cse2216.myplane.activities.SplashScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <receiver android:name="edu.univdhaka.cse2216.myplane.utils.AlarmReceiver"
-            android:enabled="false">
-        </receiver>
-        <receiver android:name="edu.univdhaka.cse2216.myplane.utils.Alarm"></receiver>
 
+        </activity>
+
+        <activity android:name="edu.univdhaka.cse2216.myplane.activities.MainActivity">
+
+
+        </activity>
+
+        <receiver
+            android:name="edu.univdhaka.cse2216.myplane.utils.AlarmReceiver"
+            android:enabled="false"></receiver>
+        <receiver android:name="edu.univdhaka.cse2216.myplane.utils.Alarm" />
     </application>
 
 </manifest>

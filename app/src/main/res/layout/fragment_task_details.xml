@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".activities.TaskDetails">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                 android:text="@string/paragraph"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -99,7 +101,7 @@
                     android:background="@color/DoneButtonColor"
                     android:text="done"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
 
         </LinearLayout>
