@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ((MainActivity)getActivity()).setActionBarTitle("Home");
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    //@TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void bindWidgets(View view)
     {
@@ -79,8 +79,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         addButton.setOnClickListener(this);
 
-        //ViewGroup footer = (ViewGroup) getLayoutInflater().inflate(R.layout.footer,listView,false);
-        //listView.addFooterView(footer);
+        ViewGroup footer = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.footer,listView,false);
+        listView.addFooterView(footer);
 
         android.widget.SearchView searchView2= view.findViewById(R.id.searchView1);
         searchView2.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {

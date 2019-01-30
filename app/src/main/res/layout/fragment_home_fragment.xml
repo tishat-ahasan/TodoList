@@ -36,17 +36,18 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:background="#fffefe" />
+
             <TextView
                 android:id="@+id/emptyId"
-                android:foregroundGravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:foregroundGravity="center"
                 android:gravity="center"
-                android:textSize="40dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
                 android:text="There's no upcoming task to do :)"
-                />
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                android:textStyle="italic" />
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/addItem"
                 android:layout_width="64dp"

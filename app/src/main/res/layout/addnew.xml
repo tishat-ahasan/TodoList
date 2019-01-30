@@ -15,7 +15,28 @@
             android:layout_height="match_parent"
             android:background="#ffffff"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <ImageButton
+                    android:id="@+id/backbtnid"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/cross"
+                    android:layout_alignParentLeft="true"
+                    android:background="@android:color/transparent"
+                    />
+
+                <ImageButton
+                    android:id="@+id/okbtnid"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/tick"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    />
+            </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

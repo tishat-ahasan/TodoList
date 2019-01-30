@@ -52,6 +52,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
     private ImageButton clockButton,calenderButton;
     private EditText clockText,calenderText,taskName,taskDetails;
     private Button button;
+    ImageButton backbtn,okbtn;
 
     String[] taskstypes;
     Spinner spinner;
@@ -111,6 +112,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
         calenderText = (EditText) view.findViewById(R.id.calenderText);
         alarmSwitch = (Switch) view.findViewById(R.id.alarmSwitch);
         button = view.findViewById(R.id.addButton);
+        backbtn = view.findViewById(R.id.backbtnid);
+        okbtn = view.findViewById(R.id.okbtnid);
 
 
 
@@ -125,6 +128,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
         calenderButton.setOnClickListener(this);
         calenderText.setOnClickListener(this);
         clockText.setOnClickListener(this);
+        backbtn.setOnClickListener(this);
+        okbtn.setOnClickListener(this);
 
 
         adapter = new ArrayAdapter<String>(getContext(),R.layout.list_row,R.id.typeRowID,taskstypes);
@@ -154,7 +159,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
             dialog.show();
         }
 
-        else if (view.getId() == R.id.calender  || view.getId() == R.id.calenderText)
+        if (view.getId() == R.id.calender  || view.getId() == R.id.calenderText)
         {
 
             Calendar cal = Calendar.getInstance();
@@ -176,15 +181,18 @@ public class AddNew extends Fragment implements View.OnClickListener {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         }
-        else if (view.getId() == R.id.addButton) {
+        if (view.getId() == R.id.addButton || view.getId() == R.id.okbtnid) {
+            //Toast.makeText(getContext(),"clicked",Toast.LENGTH_SHORT).show();
             hideKeyboard((MainActivity)getActivity());
             saveTask();
-
+        }
+        if (view.getId() == R.id.backbtnid)
+        {
+            //Toast.makeText(getContext(),"clicked",Toast.LENGTH_SHORT).show();
+            getFragmentManager().popBackStackImmediate();
         }
 
     }
-
-
     private String updateTime(int hours, int mins) {
 
         String timeSet = "";
