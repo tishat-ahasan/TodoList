@@ -44,9 +44,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ListView listView;
     private CAdapter cAdapter;
     private FloatingActionButton addButton;
-    ArrayList<Tasks> tasksList;
-    DataBase dataBase;
-    DoneDatabase doneData;
+    private ArrayList<Tasks> tasksList;
+    private DataBase dataBase;
+    private DoneDatabase doneData;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,13 +72,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         doneData = new DoneDatabase(getContext());
         addButton = view.findViewById(R.id.addItem);
         listView =  view.findViewById(R.id.list_todo);
-
         TextView emptyView=view.findViewById(R.id.emptyId);
         listView.setEmptyView(emptyView);
-
-
         addButton.setOnClickListener(this);
-
         ViewGroup footer = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.footer,listView,false);
         listView.addFooterView(footer);
 
@@ -88,7 +84,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 cAdapter.filter(newText);
@@ -104,10 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.addItem)
-        {
-//            Intent intent = new Intent(getActivity(),AddNewTask.class);
-//            startActivity(intent);
+        if (v.getId() == R.id.addItem) {
             Fragment fragment=new AddNew();
             FragmentManager fragmentManager= getFragmentManager();
             Bundle bundle = new Bundle();
@@ -117,17 +109,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
-
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void updateList()
     {
-
         tasksList = new ArrayList<>();
         Cursor cursor = dataBase.getAllData();
-
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
                 String taskname = cursor.getString(1);
@@ -137,14 +125,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 String taskTime = cursor.getString(3);
                 String taskType = cursor.getString(4);
 
-                if (isAlarm == null)
-                {
+                if (isAlarm == null) {
                     tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType,0));
-                }
-                else if (isAlarm.equalsIgnoreCase("yes")) {
+                } else if (isAlarm.equalsIgnoreCase("yes")) {
                     tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType,1));
-                }
-                else {
+                } else {
                     tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType,0));
                 }
             }
@@ -219,19 +204,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             final CheckBox checkBox =  listItem.findViewById(R.id.task_finish);
             ImageButton editButton = listItem.findViewById(R.id.task_edit);
             ImageButton deleteButton = listItem.findViewById(R.id.task_delete);
-
             ImageButton alarm = listItem.findViewById(R.id.alarmButton);
             alarm.setImageResource(currentTask.getIsAlarm());
-
             TextView name =  listItem.findViewById(R.id.task_title);
             name.setText(currentTask.getTask_name());
-
             TextView taskDate = listItem.findViewById(R.id.DateText);
             taskDate.setText(currentTask.getTask_date());
-
             TextView taskTime = listItem.findViewById(R.id.TimeText);
             taskTime.setText(currentTask.getTask_time());
-
             LinearLayout clicableLayout =  listItem.findViewById(R.id.clicableLayout);
 
             final TextView idText = listItem.findViewById(R.id.idText);

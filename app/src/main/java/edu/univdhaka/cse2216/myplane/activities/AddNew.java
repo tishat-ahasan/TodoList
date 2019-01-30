@@ -2,6 +2,7 @@ package edu.univdhaka.cse2216.myplane.activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -47,41 +48,26 @@ import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class AddNew extends Fragment implements View.OnClickListener {
 
-
-
     private ImageButton clockButton,calenderButton;
     private EditText clockText,calenderText,taskName,taskDetails;
     private Button button;
-    ImageButton backbtn,okbtn;
-
-    String[] taskstypes;
-    Spinner spinner;
-    Switch alarmSwitch;
-    DataBase dataBase;
-    SQLiteDatabase sqLiteDatabase;
-    //Tasks tasks;
-    Bundle bundle;
-    String activityType;
-    String hourMinute;
-    String givenDate;
-
-    ArrayAdapter<String> adapter;
+    private ImageButton backbtn,okbtn;
+    private String[] taskstypes;
+    private Spinner spinner;
+    private Switch alarmSwitch;
+    private DataBase dataBase;
+    private SQLiteDatabase sqLiteDatabase;
+    private Bundle bundle;
+    private String activityType,givenHourMinute,givenDate;
+    private ArrayAdapter<String> adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view= inflater.inflate(R.layout.addnew, container, false);
         bindWidgets(view);
-        button.setOnClickListener(this);
-        bundle  = getArguments();
-        activityType = String.valueOf(bundle.getString("ActivityType"));
-        //Toast.makeText(getContext(),activityType,Toast.LENGTH_SHORT).show();
-        bindWidgets(view);
-        if (activityType.equalsIgnoreCase("edit")) {
-            retriveData();
-        }
         return view;
     }
 
@@ -89,14 +75,9 @@ public class AddNew extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         if (activityType.equalsIgnoreCase("edit")) {
-
-            ((MainActivity)getActivity()).setActionBarTitle("Edit Task");
-
-        }
-        else
-        {
-            ((MainActivity)getActivity()).setActionBarTitle("New Task");
-        }
+            ((MainActivity)getActivity()).setActionBarTitle("Edit Task");}
+        else {
+            ((MainActivity)getActivity()).setActionBarTitle("New Task"); }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -104,7 +85,6 @@ public class AddNew extends Fragment implements View.OnClickListener {
     {
         dataBase = new DataBase(getContext());
         sqLiteDatabase = dataBase.getWritableDatabase();
-
         taskName = (EditText) view.findViewById(R.id.taskName);
         clockButton = (ImageButton) view.findViewById(R.id.clock);
         calenderButton = (ImageButton) view.findViewById(R.id.calender);
@@ -114,13 +94,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
         button = view.findViewById(R.id.addButton);
         backbtn = view.findViewById(R.id.backbtnid);
         okbtn = view.findViewById(R.id.okbtnid);
-
-
-
-
         taskstypes = getResources().getStringArray(R.array.Lists);
         spinner = view.findViewById(R.id.typeID);
-
         taskDetails = (EditText)view.findViewById(R.id.task_details);
 
 
@@ -128,36 +103,23 @@ public class AddNew extends Fragment implements View.OnClickListener {
         calenderButton.setOnClickListener(this);
         calenderText.setOnClickListener(this);
         clockText.setOnClickListener(this);
+        button.setOnClickListener(this);
         backbtn.setOnClickListener(this);
         okbtn.setOnClickListener(this);
-
-
         adapter = new ArrayAdapter<String>(getContext(),R.layout.list_row,R.id.typeRowID,taskstypes);
         spinner.setAdapter(adapter);
+
+        bundle  = getArguments();
+        activityType = String.valueOf(bundle.getString("ActivityType"));
+        if (activityType.equalsIgnoreCase("edit")) {
+            retriveData();}
         return;
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
 
-        if (view.getId() == R.id.clock || view.getId() == R.id.clockText)
-        {
-            Calendar calendar = Calendar.getInstance();
-            final int hour = calendar.get(Calendar.HOUR);
-            int minute = calendar.get(Calendar.MINUTE);
-            int AM_PM = calendar.get(Calendar.AM_PM);
-
-            TimePickerDialog dialog = new TimePickerDialog(getContext(),
-                    new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            String time = updateTime(hourOfDay,minute);
-                            clockText.setText(time);
-                            hourMinute = hourOfDay+":"+minute+":"+10;
-                        }
-                    },hour,minute,false);
-            dialog.show();
-        }
+        /********** to set date **********/
 
         if (view.getId() == R.id.calender  || view.getId() == R.id.calenderText)
         {
@@ -169,55 +131,65 @@ public class AddNew extends Fragment implements View.OnClickListener {
 
             DatePickerDialog dialog = new DatePickerDialog(
                     getContext(),
-                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                             calenderText.setText(dayOfMonth+ "/" +month+1+ "/" + year);
                             givenDate = year+"/"+month+1+"/"+dayOfMonth;
                         }
-                    },
-                    year1, month1, day1);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    },year1, month1, day1);
             dialog.show();
         }
+
+        /********** to set time **********/
+        if (view.getId() == R.id.clock || view.getId() == R.id.clockText)
+        {
+            Calendar calendar = Calendar.getInstance();
+            final int hour = calendar.get(Calendar.HOUR);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            TimePickerDialog dialog = new TimePickerDialog(getContext(),AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            String time = updateTime(hourOfDay,minute);
+                            clockText.setText(time);
+                            givenHourMinute = hourOfDay+":"+minute+":"+10;
+                        }
+                    },hour,minute,false);
+            dialog.show();
+        }
+
+        /********** saving the task **********/
         if (view.getId() == R.id.addButton || view.getId() == R.id.okbtnid) {
-            //Toast.makeText(getContext(),"clicked",Toast.LENGTH_SHORT).show();
             hideKeyboard((MainActivity)getActivity());
             saveTask();
         }
         if (view.getId() == R.id.backbtnid)
         {
-            //Toast.makeText(getContext(),"clicked",Toast.LENGTH_SHORT).show();
             getFragmentManager().popBackStackImmediate();
         }
 
     }
     private String updateTime(int hours, int mins) {
-
         String timeSet = "";
-        if (hours > 12) {
-            hours -= 12;
+        if (hours > 12) { hours -= 12;
             timeSet = "pm";
-        } else if (hours == 0) {
-            hours += 12;
+        }
+        else if (hours == 0) { hours += 12;
             timeSet = "am";
-        } else if (hours == 12)
-            timeSet = "pm";
-        else
-            timeSet = "am";
-
+        }
+        else if (hours == 12) timeSet = "pm";
+        else timeSet = "am";
 
         String minutes = "";
-        if (mins < 10)
-            minutes = "0" + mins;
-        else
-            minutes = String.valueOf(mins);
+        if (mins < 10) minutes = "0" + mins;
+        else minutes = String.valueOf(mins);
 
         // Append in a StringBuilder
         String aTime = new StringBuilder().append(hours).append(':')
                 .append(minutes).append(" ").append(timeSet).toString();
-
         return aTime;
     }
 
@@ -234,16 +206,17 @@ public class AddNew extends Fragment implements View.OnClickListener {
             if (alarmSwitch.isChecked()) {
                 al = 1;
             }
+            /************ if new task ***********/
             if (activityType.equalsIgnoreCase("newAdd")) {
                 Tasks newTask = new Tasks(al, "0", task, taskDate, taskTime, taskType, task_details);
                 long flag = dataBase.insertData(newTask);
                 Cursor cursor = dataBase.getAllData();
                 cursor.moveToLast();
                 if (al == 1) {
-
                     ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(cursor.getString(0)));
                 }
             }
+            /************ for edit ***********/
             else{
                 Tasks tasks = new Tasks();
                 tasks.setTask_name(task);
@@ -254,22 +227,17 @@ public class AddNew extends Fragment implements View.OnClickListener {
                 tasks.setTask_details(task_details);
                 tasks.setTask_id(String.valueOf(bundle.getString("taskID")));
                 dataBase.updateData(tasks);
-                if (al==1)
-                {
-                    //Toast.makeText(getContext()," here = "+getTimeInMilli(),Toast.LENGTH_LONG).show();
-                    //((MainActivity)getActivity()).cancelAlarm(Integer.parseInt(tasks.getTask_id()));
-                    ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(tasks.getTask_id()));
-                }
+                if (al==1) ((MainActivity)getActivity()).setAlarm(getTimeInMilli(),Integer.parseInt(tasks.getTask_id()));
             }
+
             FragmentTransaction transaction=getFragmentManager().beginTransaction();
             transaction.replace(R.id.parentId,new HomeFragment());
             transaction.commit();
         }
     }
-
+    /********** checks if any field is empty ********/
     private boolean validateInput() {
         boolean allInputsValid = true;
-
         for(EditText input
                 : new EditText[]{taskName, calenderText, clockText, taskDetails}) {
             if (input.getText().toString().isEmpty()) {
@@ -277,7 +245,6 @@ public class AddNew extends Fragment implements View.OnClickListener {
                 allInputsValid = false;
             }
         }
-
         return allInputsValid;
     }
     private void showError(EditText field, int messageRes) {
@@ -295,19 +262,15 @@ public class AddNew extends Fragment implements View.OnClickListener {
         taskName.setText(String.valueOf(bundle.getString("taskName")));
         calenderText.setText(dateString);
         clockText.setText(timeString);
-        //spinner.setPrompt(String.valueOf(bundle.getString("taskType")));
-
         givenDate = dateString.substring(6)+"/"+dateString.substring(3,6)+dateString.substring(0,2);
         int point = timeString.indexOf(':');
         String hour = timeString.substring(0,point);
         String pmCheck = timeString.substring(timeString.length()-2);
         if (pmCheck.equalsIgnoreCase("pm")) {
-
             hour = ""+(Integer.parseInt(hour)+12);
-
         }
         hour = hour+timeString.substring(point,point+3)+":"+10;
-        hourMinute = hour;
+        givenHourMinute = hour;
         taskDetails.setText(String.valueOf(bundle.getString("taskDetails")));
         spinner.setSelection(adapter.getPosition(typeString));
         if (alarmString.equalsIgnoreCase("1"))
@@ -317,32 +280,22 @@ public class AddNew extends Fragment implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private long getTimeInMilli()
     {
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String givenTime = givenDate+" "+hourMinute;
+        String givenTime = givenDate+" "+givenHourMinute;
         Date date = null;
         Date currentTime = Calendar.getInstance().getTime();
-        try {
-
-            date = sdf.parse(givenTime);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long diff = date.getTime() - currentTime.getTime();
-        //Toast.makeText(getContext(),givenTime+" = "+diff,Toast.LENGTH_SHORT).show();
-        return diff;
+        try { date = sdf.parse(givenTime);
+        } catch (ParseException e) { e.printStackTrace(); }
+        return date.getTime() - currentTime.getTime();
     }
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-
         // check if no view has focus:
         View currentFocusedView = activity.getCurrentFocus();
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 }

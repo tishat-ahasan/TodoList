@@ -35,12 +35,11 @@ public class DoneList extends Fragment {
     private ListView listView;
     private CAdapter cAdapter;
     private DoneDatabase database;
-    ArrayList<Tasks> tasksList;
+    private ArrayList<Tasks> tasksList;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_done_list, container, false);
         bindWidget(view);
         updateList();
@@ -68,7 +67,6 @@ public class DoneList extends Fragment {
     {
         tasksList = new ArrayList<>();
         Cursor cursor = database.getAllData();
-
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
                 String taskname = cursor.getString(1);
@@ -77,15 +75,11 @@ public class DoneList extends Fragment {
                 String taskDate = cursor.getString(2);
                 String taskTime = cursor.getString(3);
                 String taskType = cursor.getString(4);
-
-                if (isAlarm == null)
-                {
+                if (isAlarm == null) {
                     tasksList.add(new Tasks(R.drawable.alarm_off,id, taskname,taskDate,taskTime,taskType,0));
-                }
-                else if (isAlarm.equalsIgnoreCase("yes")) {
+                } else if (isAlarm.equalsIgnoreCase("yes")) {
                     tasksList.add(new Tasks(R.drawable.alarm_on,id, taskname,taskDate,taskTime,taskType,1));
-                }
-                else {
+                } else {
                     tasksList.add(new Tasks(R.drawable.alarm_off, id, taskname,taskDate,taskTime,taskType,0));
                 }
             }
@@ -95,12 +89,10 @@ public class DoneList extends Fragment {
     }
 
     private class CAdapter extends BaseAdapter {
-
         Context mContext;
         LayoutInflater inflater;
         ArrayList<Tasks> tasksList;
         List<Tasks> modelList;
-
         CAdapter(Context context, List<Tasks> list,ListView listView) {
             super();
             mContext = context;
@@ -133,20 +125,14 @@ public class DoneList extends Fragment {
 
 
             final Tasks currentTask = (Tasks) getItem(position);
-
             TextView name = (TextView) listItem.findViewById(R.id.task_title2);
             name.setText(currentTask.getTask_name());
-
             ImageButton deleteButton = (ImageButton)listItem.findViewById(R.id.task_delete2);
-
             TextView taskDate = listItem.findViewById(R.id.DateText2);
             taskDate.setText(currentTask.getTask_date());
-
             TextView taskTime = listItem.findViewById(R.id.TimeText2);
             taskTime.setText(currentTask.getTask_time());
-
             LinearLayout linearLayout = (LinearLayout) listItem.findViewById(R.id.layout2);
-
             final TextView idText = listItem.findViewById(R.id.idText2);
             idText.setText(currentTask.getTask_id());
 
@@ -164,17 +150,13 @@ public class DoneList extends Fragment {
                     transaction.replace(R.id.parentId,fragment,"doneToDetails");
                     transaction.addToBackStack("doneToDetails");
                     transaction.commit();
-
-                    // mContext.startActivity(new Intent(mContext,TaskdetailsActivity.class).putExtra("task", newTask));
-                }
+                    }
             });
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
-
-
                     new AlertDialog.Builder(getContext())
                             .setTitle(R.string.delete_task_confirmation_title)
                             .setMessage(R.string.delete_task_confirmation_message)
@@ -191,7 +173,6 @@ public class DoneList extends Fragment {
                             .show();
                 }
             });
-
             return listItem;
         }
 
@@ -203,7 +184,6 @@ public class DoneList extends Fragment {
             notifyDataSetChanged();
         }
     }
-
     private Bundle wrapInfo (Tasks task)
     {
         Bundle bundle=new Bundle();

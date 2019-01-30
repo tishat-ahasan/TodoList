@@ -24,7 +24,6 @@ public class TaskDetails extends Fragment {
     TextView heading,type,date,time,details;
     String id;
     Tasks tasks;
-    //Button button;
     ImageView imageView;
     View view;
     Bundle bundle;
@@ -33,10 +32,7 @@ public class TaskDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         view =  inflater.inflate(R.layout.fragment_task_details, container, false);
-
         bundle  = getArguments();
         bindWidget();
         return view;
@@ -55,7 +51,6 @@ public class TaskDetails extends Fragment {
         date = view.findViewById(R.id.taskdate);
         time = view.findViewById(R.id.tasktime);
         details = view.findViewById(R.id.taskdetails);
-        // button = view.findViewById(R.id.ButtonId1);
         imageView = view.findViewById(R.id.imageID);
         heading.setText(String.valueOf(bundle.getString("taskName")));
         type.setText(String.valueOf(bundle.getString("taskType")));
@@ -64,11 +59,6 @@ public class TaskDetails extends Fragment {
 
         details.setText(String.valueOf(bundle.getString("taskDetails")));
         setImage(String.valueOf(bundle.getString("taskType")));
-/*        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });*/
     }
     private void setImage(String type)
     {
@@ -78,5 +68,4 @@ public class TaskDetails extends Fragment {
         else if (type.equalsIgnoreCase("Sports")) imageView.setImageResource(R.drawable.sports);
         else if (type.equalsIgnoreCase("Works")) imageView.setImageResource(R.drawable.office);
     }
-
 }

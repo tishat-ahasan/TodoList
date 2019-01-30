@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         parentLayout=findViewById(R.id.parentId);
-        //fragment=findViewById(R.id.fragmentId);
-
         drawerLayout = findViewById(R.id.drawerId);
         mToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(mToggle);
@@ -71,17 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        // Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
-
         int id= menuItem.getItemId();
-//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
-        /*FrameLayout frameLayout=findViewById(R.id.parentId);
-        frameLayout.removeAllViews();*/
-
-
-
         if(id==R.id.homeId)
         {
             fm=MainActivity.this.getFragmentManager();
@@ -96,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.commit();
-            setTitle("Home");
-
         }
         else if(id==R.id.donelistId)
         {
@@ -109,17 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Fragment fragment=new DoneList();
             FragmentManager fragmentManager= getFragmentManager();
-
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment,"doneList");
             fragmentTransaction.addToBackStack("doneList");
             fragmentTransaction.commit();
-            setTitle("Done List");
-
-
-//            Intent intent = new Intent(this,DoneList.class);
-//            startActivity(intent);
-
         }
         else if(id==R.id.addId)
         {
@@ -128,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             {
                 fm.popBackStack();
             }
-
 
             Fragment fragment=new AddNew();
             FragmentManager fragmentManager= getFragmentManager();
@@ -139,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
-            //Toast.makeText(this,"Add New is clicked",Toast.LENGTH_SHORT).show();
-            setTitle("New Task");
         }
 
         else if(id==R.id.aboutId)
@@ -153,13 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Fragment fragment=new AboutApp();
             FragmentManager fragmentManager= getFragmentManager();
-
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parentId,fragment);
             fragmentTransaction.addToBackStack(String.valueOf(fragment));
             fragmentTransaction.commit();
-            setTitle("About");
-
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -189,12 +160,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     })
                     .create()
                     .show();
-        }
-        else
-        {
+        } else {
             getFragmentManager().popBackStack();
-            String ss = getFragmentManager().getClass().getSimpleName();
-            //Toast.makeText(this,this.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -208,13 +175,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         if (diff>0)
             new NotificationScheduler(id,diff).setReminder(MainActivity.this, AlarmReceiver.class);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void cancelAlarm(int id){
         new NotificationScheduler(id,0).cancelReminder(MainActivity.this, AlarmReceiver.class);
-
     }
 
     public static void hideKeyboard(Activity activity) {
