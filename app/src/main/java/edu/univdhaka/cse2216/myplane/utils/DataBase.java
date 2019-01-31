@@ -42,12 +42,7 @@ public class DataBase extends SQLiteOpenHelper{
 
         try {
             sqLiteDatabase.execSQL(CREATE_TABLE);
-            Toast.makeText(context,"TABLE CREATED ",Toast.LENGTH_LONG).show();
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(context,"Exception "+e,Toast.LENGTH_LONG).show();
-        }
+        } catch (Exception e) {}
 
     }
 
@@ -133,7 +128,4 @@ public class DataBase extends SQLiteOpenHelper{
         values.put(TASK_DETAILS,tasks.getTask_details());
         return values;
     }
-
-
-
 }
