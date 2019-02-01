@@ -135,8 +135,8 @@ public class AddNew extends Fragment implements View.OnClickListener {
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            calenderText.setText(dayOfMonth+ "/" +month+1+ "/" + year);
-                            givenDate = year+"/"+month+1+"/"+dayOfMonth;
+                            calenderText.setText(dayOfMonth+ "/" +(month+1)+ "/" + year);
+                            givenDate = year+"/"+(month+1)+"/"+dayOfMonth;
                         }
                     },year1, month1, day1);
             dialog.show();
