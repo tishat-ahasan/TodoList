@@ -50,7 +50,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
 
     private ImageButton clockButton,calenderButton;
     private EditText clockText,calenderText,taskName,taskDetails;
-    private Button button;
+    //private Button button;
     private ImageButton backbtn,okbtn;
     private String[] taskstypes;
     private Spinner spinner;
@@ -91,7 +91,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         clockText = (EditText) view.findViewById(R.id.clockText);
         calenderText = (EditText) view.findViewById(R.id.calenderText);
         alarmSwitch = (Switch) view.findViewById(R.id.alarmSwitch);
-        button = view.findViewById(R.id.addButton);
+        //button = view.findViewById(R.id.addButton);
         backbtn = view.findViewById(R.id.backbtnid);
         okbtn = view.findViewById(R.id.okbtnid);
         taskstypes = getResources().getStringArray(R.array.Lists);
@@ -103,7 +103,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         calenderButton.setOnClickListener(this);
         calenderText.setOnClickListener(this);
         clockText.setOnClickListener(this);
-        button.setOnClickListener(this);
+        //button.setOnClickListener(this);
         backbtn.setOnClickListener(this);
         okbtn.setOnClickListener(this);
         adapter = new ArrayAdapter<String>(getContext(),R.layout.list_row,R.id.typeRowID,taskstypes);
@@ -162,7 +162,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
         }
 
         /********** saving the task **********/
-        if (view.getId() == R.id.addButton || view.getId() == R.id.okbtnid) {
+        if ( view.getId() == R.id.okbtnid) {
             hideKeyboard((MainActivity)getActivity());
             saveTask();
         }
