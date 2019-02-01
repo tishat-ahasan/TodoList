@@ -63,7 +63,7 @@
         To-do-list is powerful in its simplicity and convenience of use. \n\n\n\n
     </string>
     <string name="NotificationTitle">It\'s time to hurry</string>
-    <string name="NotificationBody">You have an upcoming task withing a minute!</string>
+    <string name="NotificationBody">You have an upcoming task within a minute!</string>
 
 
 </resources>
