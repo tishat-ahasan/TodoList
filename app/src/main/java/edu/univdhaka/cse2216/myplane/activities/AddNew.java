@@ -120,6 +120,7 @@ public class AddNew extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
         /********** to set date **********/
+        hideKeyboard((MainActivity)getActivity());
 
         if (view.getId() == R.id.calender  || view.getId() == R.id.calenderText)
         {
