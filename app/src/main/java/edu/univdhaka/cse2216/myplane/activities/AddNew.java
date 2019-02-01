@@ -135,8 +135,17 @@ public class AddNew extends Fragment implements View.OnClickListener {
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            calenderText.setText(dayOfMonth+ "/" +(month+1)+ "/" + year);
-                            givenDate = year+"/"+(month+1)+"/"+dayOfMonth;
+                            String m,d;
+                            if (month < 9)
+                             m = "0"+(month+1);
+                            else m = ""+(month+1);
+                            if(dayOfMonth<=9) d="0"+dayOfMonth;
+                            else d = ""+dayOfMonth;
+
+                            calenderText.setText(d+ "/" +m+ "/" + year);
+                            givenDate = year+"/"+m+"/"+d;
+
+                            //Toast.makeText(getContext(),givenDate,Toast.LENGTH_LONG).show();
                         }
                     },year1, month1, day1);
             dialog.show();
@@ -258,11 +267,12 @@ public class AddNew extends Fragment implements View.OnClickListener {
         String timeString = String.valueOf(bundle.getString("taskTime"));
         String typeString = String.valueOf(bundle.getString("taskType"));
         String alarmString = String.valueOf(bundle.getString("taskAlarm"));
-
         taskName.setText(String.valueOf(bundle.getString("taskName")));
         calenderText.setText(dateString);
         clockText.setText(timeString);
         givenDate = dateString.substring(6)+"/"+dateString.substring(3,6)+dateString.substring(0,2);
+        //Toast.makeText(getContext(),dateString+"  =  "+timeString,Toast.LENGTH_LONG).show();
+
         int point = timeString.indexOf(':');
         String hour = timeString.substring(0,point);
         String pmCheck = timeString.substring(timeString.length()-2);
